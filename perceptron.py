@@ -12,7 +12,11 @@ class Perceptron:
     def _compute_loss(self, y_true, y_pred):
         return np.mean((y_true - y_pred) ** 2)
 
+    def _normalize(self, X):
+        return (X - np.mean(X, axis=0)) / np.std(X, axis=0)
+
     def fit(self, X, y):
+        X = self._normalize(X)
         n_samples, n_features = X.shape
         self.weights = np.zeros(n_features)
         self.bias = 0
@@ -33,6 +37,7 @@ class Perceptron:
             print(f"Iteration {_}, Loss: {loss}")
 
     def predict(self, X):
+        X = self._normalize(X)
         linear_output = np.dot(X, self.weights) + self.bias
         y_pred = self._activation_function(linear_output)
         return y_pred
