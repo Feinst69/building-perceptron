@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from perceptron import Perceptron
 
 # Load the data
-data = pd.read_csv('selected_features.csv')
+data = pd.read_csv('forward_selected_features.csv')
 
 # Split the data into features and target
 X = data.drop('diagnosis', axis=1).values
