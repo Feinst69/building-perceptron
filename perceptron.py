@@ -1,4 +1,39 @@
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import Perceptron
+from sklearn.metrics import accuracy_score
+
+def accuracy(y_true, y_pred):
+        accuracy = np.sum(y_true == y_pred) / len(y_true)
+        return accuracy
+
+def load_data(file_path: str):
+    return pd.read_csv(file_path)
+
+def split_data(df: pd.DataFrame,
+               target_col: str):
+    
+    X = df.drop(target_col, axis=1).values
+    y = df[target_col].values
+    return X, y
+
+def train_perceptron(X_train,
+                     y_train,
+                     eta0=0.1,
+                     max_iter=1000):
+    
+    model = Perceptron(learning_rate=eta0, n_iter=max_iter)
+    model.fit(X_train, y_train)
+    return model
+
+def evaluate_model(model,
+                   X_test, 
+                   y_test):
+    
+    y_pred = model.predict(X_test)
+    return accuracy_score(y_test, y_pred)
+
 
 class Perceptron:
     def __init__(self, learning_rate=0.01, n_iter=1000):
@@ -6,17 +41,17 @@ class Perceptron:
         self.n_iter = n_iter
         self.losses = []
 
-    def _activation_function(self, x):
+    def activation_function(self, x):
         return np.where(x >= 0, 1, 0)
 
-    def _compute_loss(self, y_true, y_pred):
+    def compute_loss(self, y_true, y_pred):
         return np.mean((y_true - y_pred) ** 2)
 
-    def _normalize(self, X):
+    def normalize(self, X):
         return (X - np.mean(X, axis=0)) / np.std(X, axis=0)
 
-    def fit(self, X, y):
-        X = self._normalize(X)
+    def fit(self, X, y, stop_loss=0.02):
+        X = self.normalize(X)
         n_samples, n_features = X.shape
         self.weights = np.zeros(n_features)
         self.bias = 0
@@ -25,19 +60,23 @@ class Perceptron:
             y_pred = []
             for idx, x_i in enumerate(X):
                 linear_output = np.dot(x_i, self.weights) + self.bias
-                y_pred_i = self._activation_function(linear_output)
+                y_pred_i = self.activation_function(linear_output)
                 y_pred.append(y_pred_i)
                 update = self.learning_rate * (y[idx] - y_pred_i)
                 self.weights += update * x_i
                 self.bias += update
 
             y_pred = np.array(y_pred)
-            loss = self._compute_loss(y, y_pred)
-            self.losses.append(loss)
-            print(f"Iteration {_}, Loss: {loss}")
+            loss = self.compute_loss(y, y_pred)
+            if loss <= stop_loss:
+                print(f"Converged at iteration {_}; Loss: {loss}")
+                break
+            else:
+                self.losses.append(loss)
+                print(f"Iteration {_}, Loss: {loss}")
 
     def predict(self, X):
-        X = self._normalize(X)
+        X = self.normalize(X)
         linear_output = np.dot(X, self.weights) + self.bias
-        y_pred = self._activation_function(linear_output)
+        y_pred = self.activation_function(linear_output)
         return y_pred
