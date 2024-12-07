@@ -1,36 +1,52 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.metrics import accuracy_score
 
-class Perceptron:
-    def __init__(self, input_size, learning_rate=0.01, stop_loss=None):
-        self.weights = np.zeros(input_size)
-        self.learning_rate = learning_rate
-        self.stop_loss = stop_loss
-        self.loss_history = []
+def initialisation(X):
+    W = np.random.randn(X.shape[1], 1)
+    b = np.random.randn(1)
+    return (W, b)
 
-    def predict(self, inputs):
-        summation = np.dot(self.weights, inputs)
-        return 1 if summation > 0 else 0
+def model(X, W, b):
+    Z = X.dot(W) + b
+    A = 1 / (1 + np.exp(-Z)) # Fonction d'activation sigmoïde
+    return A
 
-    def train(self, training_inputs, labels, epochs=1000):
-        training_inputs = np.array(training_inputs)
-        labels = np.array(labels)
-        
-        for epoch in range(epochs):
-            total_loss = 0
-            for inputs, label in zip(training_inputs, labels):
-                prediction = self.predict(inputs)
-                error = label - prediction
-                total_loss += abs(error)
-                self.weights += self.learning_rate * error * inputs
-            self.loss_history.append(total_loss)
-            if self.stop_loss is not None and total_loss <= self.stop_loss:
-                print(f"Training stopped at epoch {epoch} due to stop loss condition.")
-                break
+def log_loss(A, y):
+    return 1 / len(y) * np.sum(-y * np.log(A) - (1 - y) * np.log(1 - A))
 
-    def plot_loss(self):
-        plt.plot(self.loss_history)
-        plt.xlabel('Epoch')
-        plt.ylabel('Total Loss')
-        plt.title('Loss Evolution')
-        plt.show()
+def gradients(A, X, y):
+    dW = 1 / len(y) * np.dot(X.T, A - y)
+    db = 1 / len(y) * np.sum(A - y)
+    return (dW, db)
+
+def update(dW, db, W, b, learning_rate):
+    W = W - learning_rate * dW
+    b = b - learning_rate * db
+    return (W, b)
+
+def predict(X, W, b):
+    A = model(X, W, b)
+    # print(A)
+    return A >= 0.5
+
+def artificial_neuron(X, y, learning_rate = 0.1, n_iter = 100):
+    # initialisation W, b
+    W, b = initialisation(X)
+
+    Loss = []
+
+    for i in range(n_iter):
+        A = model(X, W, b)
+        Loss.append(log_loss(A, y))
+        dW, db = gradients(A, X, y)
+        W, b = update(dW, db, W, b, learning_rate)
+
+    y_pred = predict(X, W, b)
+    print(accuracy_score(y, y_pred))
+
+    plt.plot(Loss)
+    plt.show()
+
+    return (W, b)
