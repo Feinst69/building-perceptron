@@ -71,6 +71,7 @@ class Perceptron:
             y_pred = np.array(y_pred)
             loss = self.compute_loss(y, y_pred)
             if loss <= stop_loss:
+                self.losses.append(loss)
                 print(f"Converged at iteration {_}; Loss: {loss}")
                 break
             else:
@@ -78,6 +79,7 @@ class Perceptron:
                 print(f"Iteration {_}, Loss: {loss}")
 
         plt.plot(self.losses)
+        plt.show()
         plt.savefig(f'Converging of Model.png')
 
     def predict(self, X):

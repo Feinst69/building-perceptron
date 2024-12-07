@@ -7,7 +7,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     # Training variables
-    learning_rate = 0.1
+    learning_rate = 0.5
     n_iter = 1000
     stop_loss = 0.03
 
