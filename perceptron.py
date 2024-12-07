@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
 
 def accuracy(y_true, y_pred):
         accuracy = np.sum(y_true == y_pred) / len(y_true)
@@ -21,10 +22,11 @@ def split_data(df: pd.DataFrame,
 def train_perceptron(X_train,
                      y_train,
                      eta0=0.1,
-                     max_iter=1000):
+                     max_iter=1000,
+                     stop_loss=0.02):
     
     model = Perceptron(learning_rate=eta0, n_iter=max_iter)
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train,stop_loss)
     return model
 
 def evaluate_model(model,
@@ -74,6 +76,9 @@ class Perceptron:
             else:
                 self.losses.append(loss)
                 print(f"Iteration {_}, Loss: {loss}")
+
+        plt.plot(self.losses)
+        plt.savefig(f'Converging of Model.png')
 
     def predict(self, X):
         X = self.normalize(X)
