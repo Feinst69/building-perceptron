@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
-
+import pandas as pd
 
 def initialisation(X):
     W = np.random.randn(X.shape[1], 1)
@@ -31,6 +31,11 @@ def predict(X, W, b):
     # print(A)
     return A >= 0.5
 
+def load_data(filepath):
+    data = pd.read_csv(filepath)
+    X = data.drop('diagnosis', axis=1).values
+    y = data['diagnosis'].map({'M': 1, 'B': 0}).values
+    return X, y
 
 def artificial_neuron(X, y, learning_rate=0.1, n_iter=100):
     # initialisation W, b
