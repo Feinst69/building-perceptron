@@ -6,18 +6,9 @@ Ce projet applique un modèle d’apprentissage automatique pour prédire la pr�
 
 1. **Récupération des Données** : Charger et préparer les données de **Breast Cancer Wisconsin**.
 2. **Nettoyage et Analyse Exploratoire** : Assurer la qualité des données en appliquant un nettoyage rigoureux et en réalisant une analyse exploratoire approfondie.
-3. **Réduction de la Dimensionnalité** : Utiliser une méthode de réduction de dimensionnalité pour simplifier les données, tout en préservant les informations pertinentes.
+3. **Réduction des données** : Utiliser une méthode de réduction des données pour simplifier les données, tout en préservant les informations pertinentes.
 4. **Modélisation avec un Perceptron** : Développer un modèle basé sur le Perceptron pour classer les données en fonction du diagnostic de cancer.
 5. **Évaluation et Conclusions** : Évaluer les performances du modèle et proposer des améliorations pour des résultats optimaux.
-
-## Structure du Projet
-
-- **Data Loading & Cleaning** : Importer les données et effectuer un prétraitement pour gérer les valeurs manquantes et les incohérences.
-- **Exploratory Data Analysis (EDA)** : Visualiser et analyser les distributions des variables, les corrélations, et les éventuels schémas dans les données.
-- **Dimensionality Reduction** : Appliquer une méthode (telle que **PCA** - Analyse en Composantes Principales) pour réduire le nombre de variables tout en conservant un maximum d'information.
-- **Modélisation avec Perceptron** : Entraîner un modèle Perceptron pour la classification des données et ajuster les hyperparamètres.
-- **Évaluation des Performances** : Utiliser des métriques telles que l'exactitude, la précision, le rappel, et le F1-score pour évaluer les performances du modèle.
-- **Conclusion et Recommandations** : Résumer les résultats, évaluer l’efficacité du Perceptron pour cette tâche, et suggérer des améliorations potentielles.
 
 ## Description des Données
 
@@ -30,28 +21,53 @@ Les données de **Breast Cancer Wisconsin** contiennent des informations cliniqu
    - Normaliser ou standardiser les variables si nécessaire.
 
 ### 2. Analyse Exploratoire des Données (EDA)
-   - Analyse des distributions, détection des outliers.
+   - Analyse des distributions des variables.
    - Visualisation des corrélations entre les variables.
    - Examen des relations entre les caractéristiques et le diagnostic.
 
 ### 3. Réduction de la Dimensionnalité
-   - Application de la méthode de réduction de dimensionnalité choisie (par exemple, PCA) pour simplifier les données.
+   - Gestion de la différence des classes
+   - Sélection des paramètres fait par forward et backward selections.
+   - Les variables sélectionnés sont enregistrés dans un fichier csv
 
 ### 4. Modélisation avec le Perceptron
-   - Entraîner un modèle de Perceptron sur les données traitées.
-   - Ajuster les hyperparamètres (tels que le taux d’apprentissage et le nombre d’itérations).
+Le modèle Perceptron est un classificateur linéaire simple qui met à jour ses poids en fonction de l'erreur de prédiction. Le modèle est entraîné en suivant les étapes suivantes:
+   - Normaliser les caractéristiques d'entrée.
+   - Initialiser les poids et le biais.
+   - À chaque itération, calculer la sortie linéaire, appliquer la fonction d'activation et mettre à jour les poids et le biais en fonction de l'erreur de prédiction.
+   - Arrêter l'entraînement si la perte est inférieure à un seuil spécifié.
    - Prédire le diagnostic de cancer (bénin ou malin) pour chaque observation.
 
 ### 5. Évaluation du Modèle
    - Calculer l'exactitude, le rappel, la précision et le F1-score pour évaluer les performances du modèle.
    - Comparer les résultats avec les attentes et identifier les zones d'amélioration.
 
-## Résultats et Conclusion
+## Resultats
 
+Après avoir entraîné et évalué le modèle de Perceptron sur le jeu de données avec les caractéristiques sélectionnées à la fois par sélection avant et sélection arrière, nous avons obtenu les métriques suivantes :
 
+### Forward Selected Features
+- **Accuracy**: 0.9647
+- **Precision**: 0.9286
+- **Recall**: 1.0
+- **F1-score**: 0.9630
+
+### Backward Selected Features
+- **Accuracy**: 0.9647
+- **Precision**: 0.9286
+- **Recall**: 1.0
+- **F1-score**: 0.9630
+
+## Conclusion
+
+Le modèle Perceptron démontre des performances élevées sur l'ensemble de données, atteignant une précision d'environ 96,47 %. Les scores de précision et de rappel indiquent que le modèle est très efficace pour identifier correctement les instances positives tout en minimisant les faux positifs et les faux négatifs. Le score F1 équilibré confirme davantage la fiabilité et la robustesse du modèle.
+
+Ces résultats suggèrent que le modèle Perceptron est bien adapté à cette tâche de classification, fournissant des prédictions précises et cohérentes. Les travaux futurs pourraient explorer des optimisations supplémentaires et des comparaisons avec d'autres modèles d'apprentissage automatique pour garantir la meilleure performance possible.
 
 ### Recommandations pour Améliorer le Modèle
-
+**Amélioration du Modèle**
+- Réseau de Perceptrons Multicouches (MLP) : Étant donné que le Perceptron est un modèle linéaire, tester un réseau de Perceptrons multicouches permettra de capturer des relations non linéaires dans les données. Cela peut améliorer la performance si les relations entre les caractéristiques sont complexes.
+- Utilisez d'autre moyen de séléction des données: RandomForest
 
 ## Prérequis
 
