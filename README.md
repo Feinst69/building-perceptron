@@ -65,7 +65,6 @@ Le modèle Perceptron démontre des performances élevées sur l'ensemble de don
 Ces résultats suggèrent que le modèle Perceptron est bien adapté à cette tâche de classification, fournissant des prédictions précises et cohérentes. Les travaux futurs pourraient explorer des optimisations supplémentaires et des comparaisons avec d'autres modèles d'apprentissage automatique pour garantir la meilleure performance possible.
 
 ### Recommandations pour Améliorer le Modèle
-**Amélioration du Modèle**
 - Réseau de Perceptrons Multicouches (MLP) : Étant donné que le Perceptron est un modèle linéaire, tester un réseau de Perceptrons multicouches permettra de capturer des relations non linéaires dans les données. Cela peut améliorer la performance si les relations entre les caractéristiques sont complexes.
 - Utilisez d'autre moyen de séléction des données: RandomForest
 
