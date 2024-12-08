@@ -1,8 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
 def accuracy(y_true, y_pred):
@@ -34,7 +31,7 @@ def evaluate_model(model,
                    y_test):
     
     y_pred = model.predict(X_test)
-    return accuracy_score(y_test, y_pred)
+    return accuracy(y_test, y_pred)
 
 
 class Perceptron:
