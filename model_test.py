@@ -5,9 +5,9 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     # Training variables
-    learning_rate = 5
+    learning_rate = 0.1
     n_iter = 1000
-    stop_loss = 0.03
+    stop_loss = 0.035
 
     # Load data
     data1 = load_data('forward_selected_features.csv')
@@ -27,9 +27,16 @@ if __name__ == "__main__":
     model2 = train_perceptron(X_train2, y_train2, learning_rate, n_iter, stop_loss)
 
     # Evaluate the models
-    accuracy1 = evaluate_model(model1, X_test1, y_test1)
-    accuracy2 = evaluate_model(model2, X_test2, y_test2)
+    acc1, precision1, recall1, f1_1 = evaluate_model(model1, X_test1, y_test1)
+    acc2, precision2, recall2, f1_2 = evaluate_model(model2, X_test2, y_test2)
 
-    print("Perceptron classification accuracy (forward selected features):", accuracy1)
-    print("Perceptron classification accuracy (backward selected features):", accuracy2)
+    print("Perceptron classification accuracy (forward selected features):", acc1)
+    print("Precision (forward selected features):", precision1)
+    print("Recall (forward selected features):", recall1)
+    print("F1-score (forward selected features):", f1_1)
+
+    print("Perceptron classification accuracy (backward selected features):", acc2)
+    print("Precision (backward selected features):", precision2)
+    print("Recall (backward selected features):", recall2)
+    print("F1-score (backward selected features):", f1_2)
 

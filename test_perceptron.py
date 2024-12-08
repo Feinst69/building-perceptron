@@ -18,7 +18,10 @@ if __name__ == "__main__":
     # Train the perceptron models
     model = train_perceptron(X_train, y_train, learning_rate, n_iter, stop_loss)
 
-    # Evaluate the models
-    accuracy = evaluate_model(model, X_test, y_test)
+    # Evaluate the model
+    acc, precision, recall, f1 = evaluate_model(model, X_test, y_test)
 
-    print("Perceptron classification accuracy (forward selected features):", accuracy)
+    print("Perceptron classification accuracy:", acc)
+    print("Precision:", precision)
+    print("Recall:", recall)
+    print("F1-score:", f1)

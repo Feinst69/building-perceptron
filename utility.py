@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 def accuracy(y_true, y_pred):
         accuracy = np.sum(y_true == y_pred) / len(y_true)
@@ -31,7 +32,11 @@ def evaluate_model(model,
                    y_test):
     
     y_pred = model.predict(X_test)
-    return accuracy(y_test, y_pred)
+    acc = accuracy(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    return acc, precision, recall, f1
 
 
 class Perceptron:
