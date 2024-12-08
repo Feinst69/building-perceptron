@@ -79,6 +79,11 @@ class Perceptron:
                 print(f"Iteration {_}, Loss: {loss}")
 
         plt.plot(self.losses)
+        plt.axhline(y=stop_loss, color='r', linestyle='--' , label='Stop Loss')
+        plt.xlabel('Iteration')
+        plt.ylabel('Loss')
+        plt.title('Converging of Model')
+        plt.legend()
         plt.show()
         plt.savefig(f'Converging of Model.png')
 
