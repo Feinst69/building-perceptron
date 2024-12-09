@@ -57,11 +57,11 @@ class Perceptron:
 
         for _ in range(self.n_iter):
             y_pred = []
-            for idx, x_i in enumerate(X):
+            for x_i, y_i in zip(X,y):
                 linear_output = np.dot(x_i, self.weights) + self.bias
                 y_pred_i = self.activation_function(linear_output)
                 y_pred.append(y_pred_i)
-                update = self.learning_rate * (y[idx] - y_pred_i)
+                update = self.learning_rate * (y_i - y_pred_i)
                 self.weights += update * x_i
                 self.bias += update
 
@@ -73,7 +73,7 @@ class Perceptron:
                 break
             else:
                 self.losses.append(loss)
-                print(f"Iteration {_}, Loss: {loss}")
+                print(f"\rIteration {_}, Loss: {loss}",end="")
 
         plt.plot(self.losses)
         plt.axhline(y=stop_loss, color='r', linestyle='--' , label='Stop Loss')
