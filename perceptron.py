@@ -16,7 +16,7 @@ class Perceptron:
         learning_rate (float):
             The rate to aplly while the model is learning.
     """
-    def __init__(self, weights, bias, learning_rate):
+    def __init__(self):
         """
             The Perceptron constructor
 
@@ -30,9 +30,10 @@ class Perceptron:
                 The rate to aplly while the model will be learning.
             
         """
-        self.weights = weights
-        self.bias = bias
-        self.learning_rate = learning_rate
+        self.weights = None
+        self.bias = 0.5
+        self.learning_rate = 0.1
+        self.predict = self.forward
 
     def activation(self, weighted_sum):
         """
@@ -48,8 +49,8 @@ class Perceptron:
             int :  0 if the weighted summation is negative, else 1.
             
         """
-        return 0 if weighted_sum < 0 else 1
-        #return sigmoid(weighted_sum)
+        return np.where(weighted_sum < 0, 0, 1)
+
         
     def forward(self,inputs):
         """
@@ -79,15 +80,39 @@ class Perceptron:
                 The inputs we want to infer.
             target (int):
                 The true value we would like to infer (0 or 1)
-        
-        Returns
-        -------
-            int : Loss value is 0 if output matches target, else 1.
+
         """
         output = self.forward(inputs)
         step = self.learning_rate * (target - output)
         self.bias += step
         self.weights +=  step * inputs
-        return 1-abs(output-target)
+
+    
+    def fit(self,X,y, n_epochs=1000,lr=0.1):
+        """
+        Train the model.
+
+        Arguments
+        ---------
+            X (array/list of floats):
+                The inputs we want to infer.
+            y (int):
+                The true value we would like to infer (0 or 1)
+            n_epochs (int):
+                Number of training loops. Default is 1000.
+            lr (float):
+                Learning rate value. Default is 0.1.
+
+        """
+        if self.learning_rate is None:
+            self.learning_rate = lr
+        if self.weights is None:
+            self.weights = np.random.random_sample(X.shape[1])
+        for epoch in range(n_epochs):
+            head = f"Epoch {epoch+1}/{n_epochs}"
+            print(f"\r{head}", end="")
+            for xi,yi in zip(X,y):
+                self.learn(xi,yi)
+
 
 __all__ = ["Perceptron"]
